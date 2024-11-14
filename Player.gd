@@ -122,7 +122,13 @@ func interaction_step():
 		
 		if Input.is_action_just_pressed("interact"):
 			raycast_colider.interacted_with()
+	if raycast_colider and raycast_colider is Itemsss:
 		
+		ui.set_interaction_text_visible(true)
+		ui.set_interaction_label_text(raycast_colider.interaction_prompt_text_item)
+		
+		if Input.is_action_just_pressed("interact"):
+			raycast_colider.interacted_with_item()
 	else:
 		ui.set_interaction_text_visible(false)
 
