@@ -19,12 +19,6 @@ var t_bob = 0.0
 var can_play : bool = true
 signal step
 
-@onready var breath = $breath
-
-#shortcut
-@onready var ray_cast_3d = $Head/Camera3D/RayCast3D
-@onready var ui = $UI
-
 @onready var flashlight = $Head/Camera3D/Flashlight/SpotLight3D
 
 
@@ -44,8 +38,6 @@ func _unhandled_input(event):
 		camera.rotation.x = clamp(camera.rotation.x, deg_to_rad(-55), deg_to_rad(45))
 
 func _physics_process(delta):
-	
-	interaction_step()
 	# Add the gravity.
 	if not is_on_floor():
 		velocity.y -= gravity * delta
@@ -111,26 +103,6 @@ func _physics_process(delta):
 	camera.transform.origin = _headbob(t_bob)
 	
 	move_and_slide()
-
-func interaction_step():
-	var raycast_colider = ray_cast_3d.get_collider()
-	
-	if raycast_colider and raycast_colider is Interactable:
-		
-		ui.set_interaction_text_visible(true)
-		ui.set_interaction_label_text(raycast_colider.interaction_prompt_text)
-		
-		if Input.is_action_just_pressed("interact"):
-			raycast_colider.interacted_with()
-	if raycast_colider and raycast_colider is Itemsss:
-		
-		ui.set_interaction_text_visible(true)
-		ui.set_interaction_label_text(raycast_colider.interaction_prompt_text_item)
-		
-		if Input.is_action_just_pressed("interact"):
-			raycast_colider.interacted_with_item()
-	else:
-		ui.set_interaction_text_visible(false)
 
 func _headbob(time) -> Vector3:
 	var pos = Vector3.ZERO
