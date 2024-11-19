@@ -1,4 +1,11 @@
-extends Node3D
+extends Inventory
+
+@onready var inventory = $Player/UI/Inventory
+
+@onready var energy_drink_timer = $Energy_drink_timer
+@onready var teleports = $Teleports
+
+@onready var broken_watch_timer = $Broken_watch_timer
 
 @onready var page = $Pages/Page
 @onready var page_2 = $Pages/Page2
@@ -312,6 +319,22 @@ func _process(delta):
 	
 	if Autoloads.collected_collectibles == 8:
 		get_tree().change_scene_to_file("res://Levels/Level_2/Wins_2.tscn")
+	
+	if(inventory.s1):
+		if Input.is_action_just_pressed("use"):
+			effect(inventory.icon_1.texture, inventory.name_1.text)
+			inventory.icon_1.texture = null
+			inventory.name_1.text = "Empty"
+	if(inventory.s2):
+		if Input.is_action_just_pressed("use"):
+			effect(inventory.icon_2.texture, inventory.name_2.text)
+			inventory.icon_2.texture = null
+			inventory.name_2.text = "Empty"
+	if(inventory.s3):
+		if Input.is_action_just_pressed("use"):
+			effect(inventory.icon_3.texture, inventory.name_3.text)
+			inventory.icon_3.texture = null
+			inventory.name_3.text = "Empty"
 
 func pauseMenu():
 	if paused:
@@ -323,3 +346,36 @@ func pauseMenu():
 		Input.set_mouse_mode(Input.MOUSE_MODE_VISIBLE)
 		get_tree().paused = true
 	paused = !paused
+
+func effect(item_texture, item_name):
+	if(item_name == "Battery"):
+		pass
+		
+	if(item_name == "Energy drink"):
+		player.SPRINT_SPEED = 10.0
+		player.max = 1000.0
+		player.STAMINA = 1000.0
+		energy_drink_timer.wait_time = 20
+		energy_drink_timer.start()
+		
+	if(item_name == "Broken watch"):
+		stalker_2.process_mode = Node.PROCESS_MODE_DISABLED
+		broken_watch_timer.wait_time = 10
+		broken_watch_timer.start()
+		
+	if(item_name == "Teleporter"):
+		var random = randi_range(0, 15)
+		player.global_transform.origin = teleports.get_child(random).global_transform.origin
+		
+
+
+func _on_energy_drink_timer_timeout():
+	player.SPRINT_SPEED = 5.0
+	player.max = 100.0
+	player.STAMINA = 100.0
+	energy_drink_timer.stop()
+
+
+func _on_broken_watch_timer_timeout():
+	stalker_2.process_mode = Node.PROCESS_MODE_INHERIT
+	broken_watch_timer.stop()

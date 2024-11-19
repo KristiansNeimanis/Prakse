@@ -1,4 +1,5 @@
-extends Control
+class_name Inventory
+extends Node3D
 
 @onready var icon_1 = $Slot_1/MarginContainer/TextureRect
 @onready var icon_2 = $Slot_2/MarginContainer/TextureRect
@@ -57,7 +58,6 @@ func _process(delta):
 		outline_3.visible = true
 		s3 = true
 		name_3.visible = true
-		
 
 func interaction_step():
 	var raycast_colider = ray_cast_3d.get_collider()

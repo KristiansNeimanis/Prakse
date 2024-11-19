@@ -1,8 +1,8 @@
 extends CharacterBody3D
 
 #movement
-const WALK_SPEED = 3.0
-const SPRINT_SPEED = 5.0
+var WALK_SPEED = 3.0
+var SPRINT_SPEED = 5.0
 var SPEED = WALK_SPEED
 const SENSITIVITY = 0.003
 
@@ -44,7 +44,7 @@ func _physics_process(delta):
 	
 	stamina.value = STAMINA
 	
-	if Input.is_action_pressed("move_run") and STAMINA > 0:
+	if Input.is_action_pressed("move_run") and STAMINA > 0 and Input.get_vector("move_left", "move_right", "move_forward", "move_backwards"):
 		is_running = true
 		SPEED = SPRINT_SPEED
 		STAMINA -= 0.25
@@ -53,7 +53,7 @@ func _physics_process(delta):
 			is_running = false
 	
 
-	if Input.is_action_just_released("move_run"):
+	if Input.is_action_just_released("move_run") or Input.get_vector("move_left", "move_right", "move_forward", "move_backwards") == null:
 		SPEED = WALK_SPEED
 		is_running = false
 	
@@ -85,7 +85,6 @@ func _physics_process(delta):
 		flashlight.spot_range += 0.1
 
 	# Get the input direction and handle the movement/deceleration.
-	# As good practice, you should replace UI actions with custom gameplay actions.
 	var input_dir := Input.get_vector("move_left", "move_right", "move_forward", "move_backwards")
 	var direction = (head.transform.basis * Vector3(input_dir.x, 0, input_dir.y)).normalized()
 	if direction:
