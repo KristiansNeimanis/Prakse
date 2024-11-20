@@ -2,10 +2,12 @@ extends Inventory
 
 @onready var inventory = $Player/UI/Inventory
 
-@onready var energy_drink_timer = $Energy_drink_timer
+
 @onready var teleports = $Teleports
 
+@onready var energy_drink_timer = $Energy_drink_timer
 @onready var broken_watch_timer = $Broken_watch_timer
+@onready var glasses_timer = $Glasses_timer
 
 @onready var page = $Pages/Page
 @onready var page_2 = $Pages/Page2
@@ -21,6 +23,9 @@ extends Inventory
 
 @onready var player = $Player
 @onready var stalker_2 = $Stalker2
+@onready var stalker_2_texture = $Stalker2/Sketchfab_Scene/Sketchfab_model/ce6a336ac9b348a6ab14975772090f1b_fbx/Object_2/RootNode/Object_4/Skeleton3D/Object_7
+@onready var seethrough_texure = $Stalker2/seethrough_texure
+
 
 var viz = true
 
@@ -31,6 +36,7 @@ var paused = false
 
 func  _ready():
 	stalker_2.visible = false
+	stalker_2_texture.set_surface_override_material(0, null)
 	stalker_2.process_mode = Node.PROCESS_MODE_DISABLED
 	
 	Autoloads.initialize_variables(0, get_tree().get_nodes_in_group("Pages").size() -2)
@@ -348,9 +354,10 @@ func pauseMenu():
 	paused = !paused
 
 func effect(item_texture, item_name):
-	if(item_name == "Battery"):
-		pass
-		
+	if(item_name == "Glasses"):
+		stalker_2_texture.set_surface_override_material(0, seethrough_texure.get_surface_override_material(0))
+		glasses_timer.wait_time = 30
+		glasses_timer.start()
 	if(item_name == "Energy drink"):
 		player.SPRINT_SPEED = 10.0
 		player.max = 1000.0
@@ -379,3 +386,8 @@ func _on_energy_drink_timer_timeout():
 func _on_broken_watch_timer_timeout():
 	stalker_2.process_mode = Node.PROCESS_MODE_INHERIT
 	broken_watch_timer.stop()
+
+
+func _on_glasses_timer_timeout():
+	stalker_2_texture.set_surface_override_material(0, null)
+	glasses_timer.stop()
