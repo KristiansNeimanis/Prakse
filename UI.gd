@@ -1,7 +1,14 @@
 extends Control
 
+@onready var time_label = $time_label
+@onready var timer = $Timer
+
+var total_time_in_seconds : int = 0
+
 func _ready():
 	Autoloads.collected_collectibles_updated.connect(update_collectibles_collected_display)
+	
+	timer.start()
 
 func update_collectibles_collected_display():
 	$AmountCollectedLabel.text = str(Autoloads.collected_collectibles) + "/" + str(Autoloads.total_collectibles) + " Collected"
@@ -33,3 +40,10 @@ func set_slot2_name(new_name : String):
 	$Inventory/name_2.text = new_name
 func set_slot3_name(new_name : String):
 	$Inventory/name_3.text = new_name
+	
+
+func _on_timer_timeout():
+	total_time_in_seconds += 1
+	var m = int(total_time_in_seconds / 60.0)
+	var s = total_time_in_seconds - m * 60
+	time_label.text = '%02d:%02d' % [m,s]
