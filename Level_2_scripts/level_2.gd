@@ -2,12 +2,21 @@ extends Inventory
 
 @onready var inventory = $Player/UI/Inventory
 
+@onready var energized = $Item_use_screen_filter/energized
+@onready var time_stoped = $Item_use_screen_filter/time_stoped
+@onready var teleported = $Item_use_screen_filter/teleported
+@onready var glasses = $Item_use_screen_filter/glasses
+
 
 @onready var teleports = $Teleports
 
 @onready var energy_drink_timer = $Energy_drink_timer
 @onready var broken_watch_timer = $Broken_watch_timer
 @onready var glasses_timer = $Glasses_timer
+@onready var teleport_screen_f_timer = $teleport_screen_f_timer
+
+@onready var item_sound_player = $Item_sound_player
+@onready var audio_stream_player = $AudioStreamPlayer
 
 @onready var page = $Pages/Page
 @onready var page_2 = $Pages/Page2
@@ -358,6 +367,7 @@ func effect(item_texture, item_name):
 		stalker_2_texture.set_surface_override_material(0, seethrough_texure.get_surface_override_material(0))
 		glasses_timer.wait_time = 30
 		glasses_timer.start()
+		glasses.visible = true
 	if(item_name == "Energy drink"):
 		player.SPRINT_SPEED = 10.0
 		player.max = 1000.0
@@ -365,15 +375,31 @@ func effect(item_texture, item_name):
 		energy_drink_timer.wait_time = 20
 		energy_drink_timer.start()
 		
+		item_sound_player.stream = preload("res://item_sounds/Roblox Drinking Sound Effect (mp3cut.net).mp3")
+		item_sound_player.play()
+		
+		energized.visible = true
+		
 	if(item_name == "Broken watch"):
 		stalker_2.process_mode = Node.PROCESS_MODE_DISABLED
 		broken_watch_timer.wait_time = 10
 		broken_watch_timer.start()
 		
+		audio_stream_player.stream_paused = true
+		item_sound_player.stream = preload("res://item_sounds/Echoing Clock Tick HQ Sound Effect (mp3cut.net).mp3")
+		item_sound_player.play()
+		
+		time_stoped.visible = true
+		
 	if(item_name == "Teleporter"):
+		teleported.visible = true
 		var random = randi_range(0, 15)
 		player.global_transform.origin = teleports.get_child(random).global_transform.origin
 		
+		item_sound_player.stream = preload("res://item_sounds/Teleportation sound effect (mp3cut.net).mp3")
+		item_sound_player.play()
+		
+		teleport_screen_f_timer.start()
 
 
 func _on_energy_drink_timer_timeout():
@@ -381,13 +407,23 @@ func _on_energy_drink_timer_timeout():
 	player.max = 100.0
 	player.STAMINA = 100.0
 	energy_drink_timer.stop()
+	
+	energized.visible = false
 
 
 func _on_broken_watch_timer_timeout():
 	stalker_2.process_mode = Node.PROCESS_MODE_INHERIT
 	broken_watch_timer.stop()
+	audio_stream_player.stream_paused = false
+	
+	time_stoped.visible = false
 
 
 func _on_glasses_timer_timeout():
 	stalker_2_texture.set_surface_override_material(0, null)
 	glasses_timer.stop()
+	glasses.visible = false
+
+
+func _on_teleport_screen_f_timer_timeout():
+	teleported.visible = false

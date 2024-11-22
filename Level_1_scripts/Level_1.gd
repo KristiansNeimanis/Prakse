@@ -23,10 +23,20 @@ var max_time = 40
 var min_time = 20
 var player_pos: Vector3
 
-var page_4 = true
-var page_5 = true
-var page_6 = true
-var page_7 = true
+var page4 = true
+var page5 = true
+var page6 = true
+var page7 = true
+
+@onready var page_2 = $Pages/Page2
+@onready var page_3 = $Pages/Page3
+@onready var page_4 = $Pages/Page4
+@onready var page_5 = $Pages/Page5
+@onready var page_6 = $Pages/Page6
+@onready var page_7 = $Pages/Page7
+@onready var page_8 = $Pages/Page8
+@onready var page_9 = $Pages/Page9
+@onready var page_10 = $Pages/Page10
 
 var timer_stoped = true
 
@@ -63,25 +73,25 @@ func _physics_process(_delta):
 		viz = false
 	
 	#decrease zone size
-	if Autoloads.collected_collectibles == 4 and page_4 == true:
+	if Autoloads.collected_collectibles == 4 and page4 == true:
 		max_distance -= 1
 		min_distance -= 1
 		max_time -= 2
 		min_time -= 1
 		page_4 = false
-	if Autoloads.collected_collectibles == 5 and page_5 == true:
+	if Autoloads.collected_collectibles == 5 and page5 == true:
 		max_distance -= 1
 		min_distance -= 1
 		max_time -= 2
 		min_time -= 1
 		page_5 = false
-	if Autoloads.collected_collectibles == 6 and page_6 == true:
+	if Autoloads.collected_collectibles == 6 and page6 == true:
 		max_distance -= 1.5
 		min_distance -= 1.5
 		max_time -= 2
 		min_time -= 1
 		page_6 = false
-	if Autoloads.collected_collectibles == 7 and page_7 == true:
+	if Autoloads.collected_collectibles == 7 and page7 == true:
 		max_distance -= 3
 		min_distance -= 3
 		max_time -= 1
@@ -94,14 +104,15 @@ func _ready():
 	stalker.visible = false
 	stalker.process_mode = Node.PROCESS_MODE_DISABLED
 	Autoloads.initialize_variables(0, get_tree().get_nodes_in_group("Pages").size() -2)
-	var rand1 = get_tree().get_nodes_in_group("Pages").pick_random()
-	var rand2 = get_tree().get_nodes_in_group("Pages").pick_random()
+	var rand_p1 = get_tree().get_nodes_in_group("Pages").pick_random()
+	var rand_p2 = get_tree().get_nodes_in_group("Pages").pick_random()
 	
-	while rand1 == rand2:
-		rand2 = get_tree().get_nodes_in_group("Pages").pick_random()
+	while rand_p1 == rand_p2:
+		rand_p2 = get_tree().get_nodes_in_group("Pages").pick_random()
 	
-	rand1.queue_free()
-	rand2.queue_free()
+	rand_p1.queue_free()
+	rand_p2.queue_free()
+	
 
 func pauseMenu():
 	if paused:
