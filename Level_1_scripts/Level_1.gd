@@ -28,6 +28,7 @@ var page5 = true
 var page6 = true
 var page7 = true
 
+@onready var page_1 = $Pages/Page
 @onready var page_2 = $Pages/Page2
 @onready var page_3 = $Pages/Page3
 @onready var page_4 = $Pages/Page4
@@ -113,6 +114,154 @@ func _ready():
 	rand_p1.queue_free()
 	rand_p2.queue_free()
 	
+	
+	var rand1 = randi() % 4
+	if rand1 == 0:
+		page_1.position = Vector3(56.747, 0.677, 65.52)
+		page_1.rotation = Vector3(0, -1.87, 0)
+		
+	if rand1 == 1:
+		page_1.position = Vector3(52.547, 0.677, 58.692)
+		page_1.rotation = Vector3(0, -0.3, 0)
+		
+	if rand1 == 2:
+		page_1.position = Vector3(40.792, 0.677, 75.704)
+		page_1.rotation = Vector3(0, -1.87, 0)
+		
+	if rand1 == 3:
+		pass
+	
+	var rand2 = randi() % 4
+	if rand2 == 0:
+		page_2.position = Vector3(44.793, 0.57, 73.122)
+		page_2.rotation = Vector3(0, -0.3, 0)
+		
+	if rand2 == 1:
+		page_2.position = Vector3(53.314, 0.57, 65.155)
+		page_2.rotation = Vector3(0, -0.25, 0)
+		
+	if rand2 == 2:
+		page_2.position = Vector3(48.001, 0.57, 60.443)
+		page_2.rotation = Vector3(0, -1.82, 0)
+		
+	if rand2 == 3:
+		pass
+	
+	
+	var rand3 = randi() % 4
+	if rand3 == 0:
+		page_3.position = Vector3(-49.338, 0.55, 49.883)
+		page_3.rotation = Vector3(0.1, -0.52, -0.1)
+		
+	if rand3 == 1:
+		page_3.position = Vector3(-47.205, 0.55, 66.872)
+		page_3.rotation = Vector3(-0.1, -0.52, 0.1)
+	
+	if rand3 == 2:
+		page_3.position = Vector3(-30.175, 0.55, 61.384)
+		page_3.rotation = Vector3(0.1, -0.52, -0.1)
+		
+	if rand3 == 3:
+		pass
+	
+	
+	var rand4 = randi() % 4
+	if rand4 == 0:
+		page_4.position = Vector3(-67.951, -0.094, -24.55)
+		page_4.rotation = Vector3(0, 0.75, 0)
+		
+	if rand4 == 1:
+		page_4.position = Vector3(-57.846, -0.094, -27.564)
+		page_4.rotation = Vector3(0, 1.82, 0)
+		
+	if rand4 == 2:
+		page_4.position = Vector3(-60.836, -0.094, -18.299)
+		page_4.rotation = Vector3(0, 1.3, 0)
+		
+	if rand4 == 3:
+		pass
+	
+	
+	var rand5 = randi() % 3
+	if rand5 == 0:
+		page_5.position = Vector3(-38, 0.924, -79.633)
+		page_5.rotation = Vector3(0, -2.8, 0)
+		
+	if rand5 == 1:
+		page_5.position = Vector3(-36.606, 0.924, -78.762)
+		page_5.rotation = Vector3(0, 1.53, 0)
+		
+	if rand5 == 2:
+		pass
+	
+	
+	var rand6 = randi() % 3
+	if rand6 == 0:
+		page_6.position = Vector3(66.45, 0.85, -78.55)
+		page_6.rotation = Vector3(0, 1.55, 0)
+		
+	if rand6 == 1:
+		page_6.position = Vector3(56.545, 0.85, -64.874)
+		page_6.rotation = Vector3(0, 1.55, 0)
+		
+	if rand6 == 2:
+		pass
+	
+	
+	var rand7 = randi() % 2
+	if rand7 == 0:
+		page_7.position = Vector3(-36.987, 0.835, 3.656)
+		page_7.rotation = Vector3(0.2, 0.71, -0.1)
+		
+	if rand7 == 1:
+		pass
+	
+	
+	var rand8 = randi() % 4
+	if rand8 == 0:
+		page_8.position = Vector3(68.257, 0.765, 11.011)
+		page_8.rotation = Vector3(0, -1.7, 0)
+		
+	if rand8 == 1:
+		page_8.position = Vector3(69.245, 0.765, 7.026)
+		page_8.rotation = Vector3(0, -1.7, 0)
+		
+	if rand8 == 2:
+		page_8.position = Vector3(71.003, 0.765, 13.029)
+		page_8.rotation = Vector3(0, -0.15, 0)
+		
+	if rand8 == 3:
+		pass
+	
+	
+	var rand9 = randi() % 4
+	if rand9 == 0:
+		page_9.position = Vector3(68.191, 0.765, 13.5)
+		page_9.rotation = Vector3(0, 1.45, 0)
+		
+	if rand9 == 1:
+		page_9.position = Vector3(74.404, 0.765, 13.897)
+		page_9.rotation = Vector3(0, -0.1, 0)
+		
+	if rand9 == 2:
+		page_9.position = Vector3(67.319, 0.765, 16.87)
+		page_9.rotation = Vector3(0, 1.45, 0)
+		
+	if rand9 == 3:
+		pass
+	
+	
+	var rand10 = randi() % 3
+	if rand10 == 0:
+		page_10.position = Vector3(84.179, 1, -53.204)
+		page_10.rotation = Vector3(0.1, -1.41, 0.05)
+		
+	if rand10 == 1:
+		page_10.position = Vector3(84.105, 0.7, -75.775)
+		page_10.rotation = Vector3(0.1, -1.82, 0.05)
+		
+	if rand10 == 2:
+		pass
 
 func pauseMenu():
 	if paused:
