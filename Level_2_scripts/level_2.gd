@@ -41,7 +41,26 @@ var viz = true
 @onready var pause_menu = $PauseMenu
 var paused = false
 
+var items_spawned : Array
+var locations_ocupation : Dictionary
 
+var location1 = false
+var location2 = false
+var location3 = false
+var location4 = false
+var location5 = false
+var location6 = false
+var location7 = false
+var location8 = false
+var location9 = false
+var location10 = false
+var location11 = false
+var location12 = false
+var location13 = false
+var location14 = false
+var location15 = false
+var location16 = false
+var location17 = false
 
 func  _ready():
 	stalker_2.visible = false
@@ -49,6 +68,26 @@ func  _ready():
 	stalker_2.process_mode = Node.PROCESS_MODE_DISABLED
 	
 	Autoloads.initialize_variables(0, get_tree().get_nodes_in_group("Pages").size() -2)
+	
+	locations_ocupation = {
+	"0": location1,
+	"1": location2,
+	"2": location3,
+	"3": location4,
+	"4": location5,
+	"5": location6,
+	"6": location7,
+	"7": location8,
+	"8": location9,
+	"9": location10,
+	"10": location11,
+	"11": location12,
+	"12": location13,
+	"13": location14,
+	"14": location15,
+	"15": location16,
+	"16": location17
+	}
 	
 	#page_1 location
 	var rand1 = randi() % 3
@@ -381,19 +420,22 @@ func effect(item_texture, item_name):
 		energized.visible = true
 		
 	if(item_name == "Broken watch"):
-		stalker_2.process_mode = Node.PROCESS_MODE_DISABLED
-		broken_watch_timer.wait_time = 10
-		broken_watch_timer.start()
-		
-		audio_stream_player.stream_paused = true
-		item_sound_player.stream = preload("res://item_sounds/Echoing Clock Tick HQ Sound Effect (mp3cut.net).mp3")
-		item_sound_player.play()
-		
-		time_stoped.visible = true
+		if(stalker_2.process_mode == Node.PROCESS_MODE_DISABLED):
+			pass
+		else:
+			stalker_2.process_mode = Node.PROCESS_MODE_DISABLED
+			broken_watch_timer.wait_time = 10
+			broken_watch_timer.start()
+			
+			audio_stream_player.stream_paused = true
+			item_sound_player.stream = preload("res://item_sounds/Echoing Clock Tick HQ Sound Effect (mp3cut.net).mp3")
+			item_sound_player.play()
+			
+			time_stoped.visible = true
 		
 	if(item_name == "Teleporter"):
 		teleported.visible = true
-		var random = randi_range(0, 15)
+		var random = randi_range(0, 16)
 		player.global_transform.origin = teleports.get_child(random).global_transform.origin
 		
 		item_sound_player.stream = preload("res://item_sounds/Teleportation sound effect (mp3cut.net).mp3")
@@ -427,3 +469,52 @@ func _on_glasses_timer_timeout():
 
 func _on_teleport_screen_f_timer_timeout():
 	teleported.visible = false
+
+
+func _on_item_spawn_timer_timeout():
+	var i = 0
+	var finished = false
+	var random = randi_range(0, 16)
+	if(items_spawned.size() == 4):
+		var a = items_spawned.front()
+		locations_ocupation[a] = false
+		items_spawned.pop_front()
+		
+		print("=================")
+		print()
+		print("A location has been freed")
+		print()
+		print("=================")
+	while(finished == false):
+		if(random == i and locations_ocupation[str(i)] == false):
+			
+			var spawn = teleports.get_child(random).global_transform.origin
+			var item = rand_item().instantiate()
+			get_tree().get_root().add_child(item)
+			item.global_transform.origin = spawn
+			
+			
+			locations_ocupation[i] = true
+			items_spawned.append(locations_ocupation[i])
+			finished = true
+			
+			print("=================")
+			print()
+			print("an item spawned")
+			print()
+			print("=================")
+		i = i + 1
+
+func rand_item():
+	var item
+	var rand = randi() % 4
+	if rand == 0:
+		item = load("res://Item_scenes/broken_watch.tscn")
+	if rand == 1:
+		item = load("res://Item_scenes/energy_drink.tscn")
+	if rand == 2:
+		item = load("res://Item_scenes/glasses.tscn")
+	if rand == 3:
+		item = load("res://Item_scenes/teleporter.tscn")
+	
+	return item
