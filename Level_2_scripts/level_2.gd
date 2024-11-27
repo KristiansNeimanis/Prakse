@@ -362,7 +362,7 @@ func  _ready():
 
 func _process(delta):
 	get_tree().call_group("Stalker", "update_target_location", player.global_transform.origin)
-
+	
 	if Input.is_action_just_pressed("ui_cancel"):
 		pauseMenu()
 	
@@ -475,7 +475,7 @@ func _on_item_spawn_timer_timeout():
 	var i = 0
 	var finished = false
 	var random = randi_range(0, 16)
-	if(items_spawned.size() == 4):
+	if(items_spawned.size() == 6):
 		var a = items_spawned.front()
 		locations_ocupation[a] = false
 		items_spawned.pop_front()

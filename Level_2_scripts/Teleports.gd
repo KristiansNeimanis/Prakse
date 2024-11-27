@@ -1,7 +1,5 @@
 extends Node3D
 
-@onready var tp = $"../Tp"
-
 @onready var player = $"../Player"
 @onready var stalker_2 = $"../Stalker2"
 
@@ -10,10 +8,25 @@ var collected = false
 var teleports : Array
 @onready var timer = $"../Timer"
 
+var d
+var max_distance = 50
+var player_pos: Vector3
+
 func _ready():
 	teleports = get_children()
 
 func _process(delta):
+	
+	player_pos = player.global_transform.origin
+	var stalker_pos = stalker_2.global_transform.origin
+	
+	d = player_pos.distance_to(stalker_pos)
+	if d > max_distance:
+		var second_closest_teleport = find_second_closest_teleport()
+		if second_closest_teleport:
+			# Set the enemy's position to the second closest teleport node's position
+			stalker_2.global_transform.origin = second_closest_teleport.global_transform.origin
+	
 	if Autoloads.collected_collectibles == 1 and collected == false:
 		start_random_timer()
 		collected = true
@@ -49,8 +62,6 @@ func _on_timer_timeout():
 	if second_closest_teleport:
 		# Set the enemy's position to the second closest teleport node's position
 		stalker_2.global_transform.origin = second_closest_teleport.global_transform.origin
-		tp.global_transform.origin = second_closest_teleport.global_transform.origin
-		tp.play()
 	
 	# Restart the timer
 	start_random_timer()
