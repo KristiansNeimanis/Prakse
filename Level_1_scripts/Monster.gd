@@ -15,19 +15,19 @@ var page_7 = true
 
 func _physics_process(delta):
 	if Autoloads.collected_collectibles == 2 and page_2 == true:
-		SPEED += 0.5
+		SPEED += 0.3
 		page_2 = false
 	if Autoloads.collected_collectibles == 4 and page_4 == true:
-		SPEED += 0.3
+		SPEED += 0.1
 		page_4 = false
 	if Autoloads.collected_collectibles == 5 and page_5 == true:
-		SPEED += 0.1
+		SPEED += 0.2
 		page_5 = false
 	if Autoloads.collected_collectibles == 6 and page_6 == true:
-		SPEED += 0.2
+		SPEED += 0.1
 		page_6 = false
 	if Autoloads.collected_collectibles == 7 and page_7 == true:
-		SPEED += 0.22
+		SPEED += 0.2
 		page_7 = false
 	var current_location = global_transform.origin
 	var next_location = nav.get_next_path_position()

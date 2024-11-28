@@ -79,25 +79,25 @@ func _physics_process(_delta):
 		min_distance -= 1
 		max_time -= 2
 		min_time -= 1
-		page_4 = false
+		page4 = false
 	if Autoloads.collected_collectibles == 5 and page5 == true:
 		max_distance -= 1
 		min_distance -= 1
 		max_time -= 2
 		min_time -= 1
-		page_5 = false
+		page5 = false
 	if Autoloads.collected_collectibles == 6 and page6 == true:
 		max_distance -= 1.5
 		min_distance -= 1.5
 		max_time -= 2
 		min_time -= 1
-		page_6 = false
+		page6 = false
 	if Autoloads.collected_collectibles == 7 and page7 == true:
 		max_distance -= 3
 		min_distance -= 3
 		max_time -= 1
 		min_time -= 1
-		page_7 = false
+		page7 = false
 		
 		
 
