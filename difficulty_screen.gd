@@ -1,4 +1,3 @@
-class_name Difficulty
 extends Node3D
 
 @onready var normal_checkbox = $Control/normal
@@ -7,13 +6,31 @@ extends Node3D
 
 @onready var description = $Control/Description
 
-var n = true
-var h = false
-var e = false
+var database : SQLite
 
-var normal
-var hard
-var easy
+func _ready():
+	database = SQLite.new()
+	database.path = "res://Scrips/DB/items_&_stats.db"
+	database.open_db()
+	
+	var normal = database.select_rows("difficulty","row_id = 1", ["normal"])
+	var hard = database.select_rows("difficulty","row_id = 1", ["hard"])
+	var easy = database.select_rows("difficulty","row_id = 1", ["easy"])
+	
+	if(normal[0]["normal"] == 1):
+		normal_checkbox.button_pressed = true
+		hard_checkbox.button_pressed = false
+		easy_checkbox.button_pressed = false
+		
+	if(hard[0]["hard"] == 1):
+		hard_checkbox.button_pressed = true
+		normal_checkbox.button_pressed = false
+		easy_checkbox.button_pressed = false
+		
+	if(easy[0]["easy"] == 1):
+		easy_checkbox.button_pressed = true
+		hard_checkbox.button_pressed = false
+		normal_checkbox.button_pressed = false
 
 func _on_normal_pressed():
 	description.text = "Normal Difficulty:
@@ -24,9 +41,7 @@ func _on_normal_pressed():
 	hard_checkbox.button_pressed = false
 	easy_checkbox.button_pressed = false
 	
-	n = true
-	h = false
-	e = false
+	database.update_rows("difficulty", "row_id = 1", {"normal": 1, "hard": 0, "easy": 0})
 
 
 func _on_hard_pressed():
@@ -37,9 +52,8 @@ func _on_hard_pressed():
 	normal_checkbox.button_pressed = false
 	easy_checkbox.button_pressed = false
 	
-	h = true
-	n = false
-	e = false
+	database.update_rows("difficulty", "row_id = 1", {"normal": 0, "hard": 1, "easy": 0})
+
 
 
 func _on_easy_pressed():
@@ -50,9 +64,8 @@ func _on_easy_pressed():
 	normal_checkbox.button_pressed = false
 	hard_checkbox.button_pressed = false
 	
-	e = true
-	h = false
-	n = false
+	database.update_rows("difficulty", "row_id = 1", {"normal": 0, "hard": 0, "easy": 1})
+
 
 func _on_back_pressed():
 	get_tree().change_scene_to_file("res://menu.tscn")

@@ -404,7 +404,7 @@ func pauseMenu():
 func effect(item_texture, item_name):
 	if(item_name == "Glasses"):
 		stalker_2_texture.set_surface_override_material(0, seethrough_texure.get_surface_override_material(0))
-		glasses_timer.wait_time = 30
+		glasses_timer.wait_time = 40
 		glasses_timer.start()
 		glasses.visible = true
 	if(item_name == "Energy drink"):

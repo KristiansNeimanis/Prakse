@@ -1,6 +1,5 @@
 extends Node3D
-
-@onready var item_spawn_timer = $"../Item_spawn_timer"
+@onready var stalker = $".."
 
 var database : SQLite
 
@@ -14,8 +13,15 @@ func _ready():
 	var easy = database.select_rows("difficulty","row_id = 1", ["easy"])
 	
 	if(normal[0]["normal"] == 1):
-		pass
+		print("normal")
+		
 	if(hard[0]["hard"] == 1):
-		item_spawn_timer.wait_time = 55
+		stalker.SPEED = 3.0
+		stalker.page_2 = false
+		stalker.page_4 = false
+		stalker.page_6 = false
+		print("hard")
+		
 	if(easy[0]["easy"] == 1):
-		item_spawn_timer.wait_time = 35
+		stalker.SPEED = 2.1
+		print("easy")
