@@ -27,5 +27,5 @@ func _on_stats_button_pressed():
 	get_tree().change_scene_to_file("res://stats_scene.tscn")
 
 
-func _on_dificulty_pressed():
-	get_tree().change_scene_to_file("res://dificulty_screen.tscn")
+func _on_settings_pressed():
+	get_tree().change_scene_to_file("res://settings_screen.tscn")
