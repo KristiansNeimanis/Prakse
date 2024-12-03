@@ -4,7 +4,7 @@ extends CharacterBody3D
 var WALK_SPEED = 3.0
 var SPRINT_SPEED = 5.0
 var SPEED = WALK_SPEED
-const SENSITIVITY = 0.003
+const SENSITIVITY = 0.0965
 
 @onready var stamina = $Head/Camera3D/TextureProgressBar
 
@@ -19,8 +19,12 @@ var t_bob = 0.0
 var can_play : bool = true
 signal step
 
-@onready var flashlight = $Head/Camera3D/Flashlight/SpotLight3D
+@onready var follow_head_x = $follow_head_x
+@onready var follow_head_y = $follow_head_x/follow_head_y
+@onready var flashlight_base = $follow_head_x/follow_head_y/Flashlight
+@onready var flashlight = $follow_head_x/follow_head_y/Flashlight/SpotLight3D
 
+var t = 0.0
 
 @onready var head := $Head
 @onready var camera := $Head/Camera3D
@@ -33,11 +37,12 @@ func _ready():
 
 func _unhandled_input(event):
 	if event is InputEventMouseMotion:
-		head.rotate_y(-event.relative.x * SENSITIVITY)
-		camera.rotate_x(-event.relative.y * SENSITIVITY)
+		head.rotation_degrees.y += SENSITIVITY * (-event.relative.x)
+		camera.rotation_degrees.x += SENSITIVITY * (-event.relative.y)
 		camera.rotation.x = clamp(camera.rotation.x, deg_to_rad(-55), deg_to_rad(45))
 
 func _physics_process(delta):
+	make_flaslight_follow(delta)
 	# Add the gravity.
 	if not is_on_floor():
 		velocity.y -= gravity * delta
@@ -117,3 +122,7 @@ func _headbob(time) -> Vector3:
 		emit_signal("step")
 		
 	return pos
+
+func make_flaslight_follow(delta):
+	follow_head_x.rotation = lerp(follow_head_x.rotation, head.rotation, delta * 10)
+	follow_head_y.rotation = lerp(follow_head_y.rotation, camera.rotation, delta * 10)
