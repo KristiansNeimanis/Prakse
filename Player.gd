@@ -32,6 +32,9 @@ var t = 0.0
 # Get the gravity from the project settings to be synced with RigidBody nodes.
 var gravity = ProjectSettings.get_setting("physics/3d/default_gravity")
 
+
+var light_on = true
+
 func _ready():
 	Input.set_mouse_mode(Input.MOUSE_MODE_CAPTURED)
 
@@ -70,8 +73,10 @@ func _physics_process(delta):
 	if Input.is_action_just_pressed("flashlight"):
 		if flashlight.visible:
 			flashlight.visible = false
+			light_on = false
 		else:
 			flashlight.visible = true
+			light_on = true
 	
 	flashlight.spot_angle = clamp(flashlight.spot_angle, 25, 45)
 	flashlight.light_energy = clamp(flashlight.light_energy, 1.2, 3.2)
@@ -126,3 +131,4 @@ func _headbob(time) -> Vector3:
 func make_flaslight_follow(delta):
 	follow_head_x.rotation = lerp(follow_head_x.rotation, head.rotation, delta * 10)
 	follow_head_y.rotation = lerp(follow_head_y.rotation, camera.rotation, delta * 10)
+	

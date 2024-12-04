@@ -35,6 +35,7 @@ extends Inventory
 @onready var stalker_2_texture = $Stalker2/Sketchfab_Scene/Sketchfab_model/ce6a336ac9b348a6ab14975772090f1b_fbx/Object_2/RootNode/Object_4/Skeleton3D/Object_7
 @onready var seethrough_texure = $Stalker2/seethrough_texure
 
+var already_in_zone = false
 
 var viz = true
 
@@ -361,6 +362,12 @@ func  _ready():
 
 
 func _process(delta):
+	if(stalker_2.in_zone == true and already_in_zone == false):
+		$flicker_timer.start()
+		already_in_zone = true
+	if(stalker_2.in_zone == false and already_in_zone == true):
+		$flicker_timer.stop()
+		already_in_zone = false
 	get_tree().call_group("Stalker", "update_target_location", player.global_transform.origin)
 	
 	if Input.is_action_just_pressed("ui_cancel"):
@@ -432,6 +439,8 @@ func effect(item_texture, item_name):
 			item_sound_player.play()
 			
 			time_stoped.visible = true
+			
+			$Player/UI.timer.stop()
 		
 	if(item_name == "Teleporter"):
 		teleported.visible = true
@@ -459,6 +468,8 @@ func _on_broken_watch_timer_timeout():
 	audio_stream_player.stream_paused = false
 	
 	time_stoped.visible = false
+	
+	$Player/UI.timer.start()
 
 
 func _on_glasses_timer_timeout():
@@ -518,3 +529,17 @@ func rand_item():
 		item = load("res://Item_scenes/teleporter.tscn")
 	
 	return item
+
+
+
+func _on_flicker_timer_timeout():
+	var rand = randi() % 2
+	if rand == 0:
+		pass
+	if rand == 1:
+		if(player.light_on == true):
+			player.flashlight.visible = false
+			player.light_on = false
+		else:
+			player.flashlight.visible = true
+			player.light_on = true
