@@ -41,6 +41,16 @@ var page7 = true
 
 var timer_stoped = true
 
+var already_in_zone = false
+
+func _process(delta):
+	if(stalker.in_zone == true and already_in_zone == false):
+		$flicker_timer.start()
+		already_in_zone = true
+	if(stalker.in_zone == false and already_in_zone == true):
+		$flicker_timer.stop()
+		already_in_zone = false
+
 func _physics_process(_delta):
 	#timer
 	var rng = RandomNumberGenerator.new()
@@ -296,3 +306,16 @@ func teleport_within_donut():
 func _on_tele_timer_timeout():
 	teleport_within_donut()
 	timer_stoped = true
+
+
+func _on_flicker_timer_timeout():
+	var rand = randi() % 2
+	if rand == 0:
+		pass
+	if rand == 1:
+		if(player.light_on == true):
+			player.flashlight.visible = false
+			player.light_on = false
+		else:
+			player.flashlight.visible = true
+			player.light_on = true
