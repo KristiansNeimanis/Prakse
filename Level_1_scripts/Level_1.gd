@@ -43,7 +43,32 @@ var timer_stoped = true
 
 var already_in_zone = false
 
+@onready var mon_cast = $TestPlayer/Head/Camera3D/MonCast
+@onready var screen_effect = $CanvasLayer2/ColorRect
+
+var effect = 0.03
 func _process(delta):
+	if(mon_cast.is_colliding()):
+		if(mon_cast.get_collider().name == "Stalker"):
+			print("Looked at monster")
+			effect += 0.001
+			screen_effect.get_material().set_shader_parameter("noise_amount", effect)
+		else:
+			if(effect <= 0.03):
+				pass
+			else:
+				effect -= 0.0005
+				screen_effect.get_material().set_shader_parameter("noise_amount", effect)
+	else:
+		if(effect <= 0.03):
+			pass
+		else:
+			effect -= 0.0005
+			screen_effect.get_material().set_shader_parameter("noise_amount", effect)
+	
+	if(screen_effect.get_material().get_shader_parameter("noise_amount") >= 0.4):
+		get_tree().change_scene_to_file("res://Levels/Level_1/game_over.tscn")
+	
 	if(stalker.in_zone == true and already_in_zone == false):
 		$flicker_timer.start()
 		already_in_zone = true
@@ -112,6 +137,8 @@ func _physics_process(_delta):
 		
 
 func _ready():
+	screen_effect.get_material().set_shader_parameter("noise_amount", 0.03)
+	
 	stalker.visible = false
 	stalker.process_mode = Node.PROCESS_MODE_DISABLED
 	Autoloads.initialize_variables(0, get_tree().get_nodes_in_group("Pages").size() -2)

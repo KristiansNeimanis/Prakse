@@ -63,7 +63,13 @@ var location15 = false
 var location16 = false
 var location17 = false
 
+@onready var mon_cast = $Player/Head/Camera3D/MonCast
+var s_effect = 0.03
+@onready var static_effect = $CanvasLayer2/ColorRect
+
 func  _ready():
+	static_effect.get_material().set_shader_parameter("noise_amount", 0.03)
+	
 	stalker_2.visible = false
 	stalker_2_texture.set_surface_override_material(0, null)
 	stalker_2.process_mode = Node.PROCESS_MODE_DISABLED
@@ -360,15 +366,39 @@ func  _ready():
 	random1.queue_free()
 	random2.queue_free()
 
+func _physics_process(_delta):
+	get_tree().call_group("Stalker", "update_target_location", player.global_transform.origin)
 
 func _process(delta):
+	if(mon_cast.is_colliding()):
+		if(mon_cast.get_collider().name == "Stalker2"):
+			print("Looked at monster")
+			s_effect += 0.001
+			static_effect.get_material().set_shader_parameter("noise_amount", s_effect)
+		else:
+			if(s_effect <= 0.03):
+				pass
+			else:
+				s_effect -= 0.0005
+				static_effect.get_material().set_shader_parameter("noise_amount", s_effect)
+	else:
+		if(s_effect <= 0.03):
+			pass
+		else:
+			s_effect -= 0.0005
+			static_effect.get_material().set_shader_parameter("noise_amount", s_effect)
+	
+	if(static_effect.get_material().get_shader_parameter("noise_amount") >= 0.4):
+		get_tree().change_scene_to_file("res://Levels/Level_2/Game_over_2.tscn")
+	
+	
 	if(stalker_2.in_zone == true and already_in_zone == false):
 		$flicker_timer.start()
 		already_in_zone = true
 	if(stalker_2.in_zone == false and already_in_zone == true):
 		$flicker_timer.stop()
 		already_in_zone = false
-	get_tree().call_group("Stalker", "update_target_location", player.global_transform.origin)
+	
 	
 	if Input.is_action_just_pressed("ui_cancel"):
 		pauseMenu()
