@@ -44,6 +44,11 @@ var timer_stoped = true
 var already_in_zone = false
 
 @onready var mon_cast = $TestPlayer/Head/Camera3D/MonCast
+@onready var mon_cast_2 = $TestPlayer/Head/Camera3D/MonCast2
+@onready var mon_cast_3 = $TestPlayer/Head/Camera3D/MonCast3
+@onready var mon_cast_4 = $TestPlayer/Head/Camera3D/MonCast4
+@onready var mon_cast_5 = $TestPlayer/Head/Camera3D/MonCast5
+
 @onready var screen_effect = $CanvasLayer2/ColorRect
 @onready var static_sound = $Static_sound
 
@@ -52,6 +57,63 @@ var effect = 0.03
 func _process(delta):
 	if(mon_cast.is_colliding()):
 		if(mon_cast.get_collider().name == "Stalker"):
+			print("colider_1")
+			effect += 0.001
+			screen_effect.get_material().set_shader_parameter("noise_amount", effect)
+			if(static_sound.volume_db < -10):
+				static_sound.volume_db += 0.25
+		else:
+			if(effect <= 0.03):
+				pass
+			else:
+				effect -= 0.0005
+				screen_effect.get_material().set_shader_parameter("noise_amount", effect)
+				static_sound.volume_db -= 0.125
+	elif(mon_cast_2.is_colliding()):
+		if(mon_cast_2.get_collider().name == "Stalker"):
+			print("colider_2")
+			effect += 0.001
+			screen_effect.get_material().set_shader_parameter("noise_amount", effect)
+			if(static_sound.volume_db < -10):
+				static_sound.volume_db += 0.25
+		else:
+			if(effect <= 0.03):
+				pass
+			else:
+				effect -= 0.0005
+				screen_effect.get_material().set_shader_parameter("noise_amount", effect)
+				static_sound.volume_db -= 0.125
+	elif(mon_cast_3.is_colliding()):
+		if(mon_cast_3.get_collider().name == "Stalker"):
+			print("colider_3")
+			effect += 0.001
+			screen_effect.get_material().set_shader_parameter("noise_amount", effect)
+			if(static_sound.volume_db < -10):
+				static_sound.volume_db += 0.25
+		else:
+			if(effect <= 0.03):
+				pass
+			else:
+				effect -= 0.0005
+				screen_effect.get_material().set_shader_parameter("noise_amount", effect)
+				static_sound.volume_db -= 0.125
+	elif(mon_cast_4.is_colliding()):
+		if(mon_cast_4.get_collider().name == "Stalker"):
+			print("colider_4")
+			effect += 0.001
+			screen_effect.get_material().set_shader_parameter("noise_amount", effect)
+			if(static_sound.volume_db < -10):
+				static_sound.volume_db += 0.25
+		else:
+			if(effect <= 0.03):
+				pass
+			else:
+				effect -= 0.0005
+				screen_effect.get_material().set_shader_parameter("noise_amount", effect)
+				static_sound.volume_db -= 0.125
+	elif(mon_cast_5.is_colliding()):
+		if(mon_cast_5.get_collider().name == "Stalker"):
+			print("colider_5")
 			effect += 0.001
 			screen_effect.get_material().set_shader_parameter("noise_amount", effect)
 			if(static_sound.volume_db < -10):

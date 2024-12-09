@@ -79,13 +79,10 @@ func _on_option_button_item_selected(index):
 	match index:
 		0:
 			DisplayServer.window_set_size(Vector2i(1920,1080))
-			print("1920 x 1080")
 		1:
 			DisplayServer.window_set_size(Vector2i(1280,720))
-			print("1280 x 720")
 		2:
 			DisplayServer.window_set_size(Vector2i(800,600))
-			print("800 x 600")
 
 
 func _on_window_mode_item_selected(index):
@@ -93,7 +90,6 @@ func _on_window_mode_item_selected(index):
 		0: #fullscreen
 			DisplayServer.window_set_mode(DisplayServer.WINDOW_MODE_FULLSCREEN)
 			DisplayServer.window_set_flag(DisplayServer.WINDOW_FLAG_BORDERLESS, false)
-			
 		1: #windowed
 			DisplayServer.window_set_mode(DisplayServer.WINDOW_MODE_WINDOWED)
 			DisplayServer.window_set_flag(DisplayServer.WINDOW_FLAG_BORDERLESS, false)
