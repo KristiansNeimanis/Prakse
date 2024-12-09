@@ -47,17 +47,9 @@ func _on_navigation_agent_3d_target_reached():
 
 func _on_zone_body_entered(body):
 	if(body.name == "TestPlayer"):
-		print(".......")
-		print("player entered the zone")
-		print(".......")
-		
 		in_zone = true
 
 
 func _on_zone_body_exited(body):
 	if(body.name == "TestPlayer"):
-		print(".......")
-		print("player left the zone")
-		print(".......")
-		
 		in_zone = false

@@ -66,6 +66,7 @@ var location17 = false
 @onready var mon_cast = $Player/Head/Camera3D/MonCast
 var s_effect = 0.03
 @onready var static_effect = $CanvasLayer2/ColorRect
+@onready var static_sound = $Static_sound
 
 func  _ready():
 	static_effect.get_material().set_shader_parameter("noise_amount", 0.03)
@@ -372,21 +373,24 @@ func _physics_process(_delta):
 func _process(delta):
 	if(mon_cast.is_colliding()):
 		if(mon_cast.get_collider().name == "Stalker2"):
-			print("Looked at monster")
 			s_effect += 0.001
 			static_effect.get_material().set_shader_parameter("noise_amount", s_effect)
+			if(static_sound.volume_db < -10):
+				static_sound.volume_db += 0.25
 		else:
 			if(s_effect <= 0.03):
 				pass
 			else:
 				s_effect -= 0.0005
 				static_effect.get_material().set_shader_parameter("noise_amount", s_effect)
+				static_sound.volume_db -= 0.125
 	else:
 		if(s_effect <= 0.03):
 			pass
 		else:
 			s_effect -= 0.0005
 			static_effect.get_material().set_shader_parameter("noise_amount", s_effect)
+			static_sound.volume_db -= 0.125
 	
 	if(static_effect.get_material().get_shader_parameter("noise_amount") >= 0.4):
 		get_tree().change_scene_to_file("res://Levels/Level_2/Game_over_2.tscn")
