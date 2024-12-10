@@ -72,7 +72,20 @@ var s_effect = 0.03
 @onready var static_effect = $CanvasLayer2/ColorRect
 @onready var static_sound = $Static_sound
 
+
+#Monster abilities
+@onready var flicker_from_afar_timer = $flicker_from_afar_timer
+var ffa_rand_time_set = false
+var ffa_flickering = false
+
+@onready var deafen_timer = $deafen_timer
+@onready var deafen_active_time = $deafen_active_time
+var deafen_time_set = false
+var master_volume
+
 func  _ready():
+	master_volume = AudioServer.get_bus_volume_db(0)
+	
 	static_effect.get_material().set_shader_parameter("noise_amount", 0.03)
 	
 	stalker_2.visible = false
@@ -375,6 +388,18 @@ func _physics_process(_delta):
 	get_tree().call_group("Stalker", "update_target_location", player.global_transform.origin)
 
 func _process(delta):
+	if(ffa_rand_time_set == false):
+		var random_number = randf_range(30,60)
+		flicker_from_afar_timer.wait_time = random_number
+		flicker_from_afar_timer.start()
+		ffa_rand_time_set = true
+	
+	if(deafen_time_set == false):
+		var random_number = randf_range(30,60)
+		deafen_timer.wait_time = random_number
+		deafen_timer.start()
+		deafen_time_set = true
+	
 	if(mon_cast.is_colliding()):
 		if(mon_cast.get_collider().name == "Stalker2"):
 			s_effect += 0.001
@@ -455,7 +480,7 @@ func _process(delta):
 	if(stalker_2.in_zone == true and already_in_zone == false):
 		$flicker_timer.start()
 		already_in_zone = true
-	if(stalker_2.in_zone == false and already_in_zone == true):
+	if(stalker_2.in_zone == false and already_in_zone == true and ffa_flickering == false):
 		$flicker_timer.stop()
 		already_in_zone = false
 	
@@ -621,7 +646,6 @@ func rand_item():
 	return item
 
 
-
 func _on_flicker_timer_timeout():
 	var rand = randi() % 2
 	if rand == 0:
@@ -633,3 +657,69 @@ func _on_flicker_timer_timeout():
 		else:
 			player.flashlight.visible = true
 			player.light_on = true
+
+
+func _on_flicker_from_afar_timer_timeout():
+	var rand = randi() % 3
+	if rand == 0:
+		pass
+	if rand == 1:
+		pass
+	if rand == 2:
+		$flicker_timer.start()
+		$ffa_active_time.start()
+		
+		flicker_from_afar_timer.stop()
+		ffa_flickering = true
+
+
+func _on_ffa_active_time_timeout():
+	if(stalker_2.in_zone == false):
+		$flicker_timer.stop()
+		$ffa_active_time.stop()
+		
+		ffa_rand_time_set = false
+		ffa_flickering = false
+		
+	else:
+		$ffa_active_time.stop()
+		
+		ffa_rand_time_set = false
+		ffa_flickering = false
+
+
+func _on_deafen_timer_timeout():
+	var rand = randi() % 4
+	if rand == 0:
+		$deafen_active_time.start()
+		deafen_timer.stop()
+		
+		$Monster_skreetch.play()
+		AudioServer.set_bus_volume_db(0, -100)
+	if rand == 1:
+		$deafen_active_time.start()
+		deafen_timer.stop()
+		
+		$Monster_skreetch.play()
+		AudioServer.set_bus_volume_db(0, -100)
+	if rand == 2:
+		$deafen_active_time.start()
+		deafen_timer.stop()
+		
+		$Monster_skreetch.play()
+		AudioServer.set_bus_volume_db(0, -100)
+	if rand == 3:
+		$deafen_active_time.start()
+		deafen_timer.stop()
+		
+		$Monster_skreetch.play()
+		AudioServer.set_bus_volume_db(0, -100)
+
+func _on_deafen_active_time_timeout():
+	AudioServer.set_bus_volume_db(0, master_volume)
+	$deafen_active_time.stop()
+	
+	deafen_time_set = false
+
+func _on_monster_skreetch_finished():
+	$Monster_skreetch.stop()

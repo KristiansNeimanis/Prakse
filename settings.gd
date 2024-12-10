@@ -5,12 +5,12 @@ extends Node3D
 @onready var easy_checkbox = $Control/easy
 
 @onready var description = $Control/Description
-
+	
 var database : SQLite
-
+var path = "res://Scrips/DB/items_&_stats.db"
 func _ready():
 	database = SQLite.new()
-	database.path = "res://Scrips/DB/items_&_stats.db"
+	database.path = path
 	database.open_db()
 	
 	var normal = database.select_rows("difficulty","row_id = 1", ["normal"])
