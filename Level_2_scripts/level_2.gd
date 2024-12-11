@@ -78,14 +78,8 @@ var s_effect = 0.03
 var ffa_rand_time_set = false
 var ffa_flickering = false
 
-@onready var deafen_timer = $deafen_timer
-@onready var deafen_active_time = $deafen_active_time
-var deafen_time_set = false
-var master_volume
 
 func  _ready():
-	master_volume = AudioServer.get_bus_volume_db(0)
-	
 	static_effect.get_material().set_shader_parameter("noise_amount", 0.03)
 	
 	stalker_2.visible = false
@@ -389,89 +383,83 @@ func _physics_process(_delta):
 
 func _process(delta):
 	if(ffa_rand_time_set == false):
-		var random_number = randf_range(30,60)
+		var random_number = randf_range(40,60)
 		flicker_from_afar_timer.wait_time = random_number
 		flicker_from_afar_timer.start()
 		ffa_rand_time_set = true
 	
-	if(deafen_time_set == false):
-		var random_number = randf_range(30,60)
-		deafen_timer.wait_time = random_number
-		deafen_timer.start()
-		deafen_time_set = true
-	
 	if(mon_cast.is_colliding()):
 		if(mon_cast.get_collider().name == "Stalker2"):
-			s_effect += 0.001
+			s_effect += 0.0025
 			static_effect.get_material().set_shader_parameter("noise_amount", s_effect)
 			if(static_sound.volume_db < -10):
-				static_sound.volume_db += 0.25
+				static_sound.volume_db += 0.4
 		else:
 			if(s_effect <= 0.03):
 				pass
 			else:
 				s_effect -= 0.0005
 				static_effect.get_material().set_shader_parameter("noise_amount", s_effect)
-				static_sound.volume_db -= 0.125
+				static_sound.volume_db -= 0.08
 	elif(mon_cast_2.is_colliding()):
 		if(mon_cast_2.get_collider().name == "Stalker2"):
-			s_effect += 0.001
+			s_effect += 0.0025
 			static_effect.get_material().set_shader_parameter("noise_amount", s_effect)
 			if(static_sound.volume_db < -10):
-				static_sound.volume_db += 0.25
+				static_sound.volume_db += 0.4
 		else:
 			if(s_effect <= 0.03):
 				pass
 			else:
 				s_effect -= 0.0005
 				static_effect.get_material().set_shader_parameter("noise_amount", s_effect)
-				static_sound.volume_db -= 0.125
+				static_sound.volume_db -= 0.08
 	elif(mon_cast_3.is_colliding()):
 		if(mon_cast_3.get_collider().name == "Stalker2"):
-			s_effect += 0.001
+			s_effect += 0.0025
 			static_effect.get_material().set_shader_parameter("noise_amount", s_effect)
 			if(static_sound.volume_db < -10):
-				static_sound.volume_db += 0.25
+				static_sound.volume_db += 0.4
 		else:
 			if(s_effect <= 0.03):
 				pass
 			else:
 				s_effect -= 0.0005
 				static_effect.get_material().set_shader_parameter("noise_amount", s_effect)
-				static_sound.volume_db -= 0.125
+				static_sound.volume_db -= 0.08
 	elif(mon_cast_4.is_colliding()):
 		if(mon_cast_4.get_collider().name == "Stalker2"):
-			s_effect += 0.001
+			s_effect += 0.0025
 			static_effect.get_material().set_shader_parameter("noise_amount", s_effect)
 			if(static_sound.volume_db < -10):
-				static_sound.volume_db += 0.25
+				static_sound.volume_db += 0.4
 		else:
 			if(s_effect <= 0.03):
 				pass
 			else:
 				s_effect -= 0.0005
 				static_effect.get_material().set_shader_parameter("noise_amount", s_effect)
-				static_sound.volume_db -= 0.125
+				static_sound.volume_db -= 0.08
 	elif(mon_cast_5.is_colliding()):
 		if(mon_cast_5.get_collider().name == "Stalker2"):
-			s_effect += 0.001
+			s_effect += 0.0025
 			static_effect.get_material().set_shader_parameter("noise_amount", s_effect)
 			if(static_sound.volume_db < -10):
-				static_sound.volume_db += 0.25
+				static_sound.volume_db += 0.4
 		else:
 			if(s_effect <= 0.03):
 				pass
 			else:
 				s_effect -= 0.0005
 				static_effect.get_material().set_shader_parameter("noise_amount", s_effect)
-				static_sound.volume_db -= 0.125
+				static_sound.volume_db -= 0.08
 	else:
 		if(s_effect <= 0.03):
 			pass
 		else:
 			s_effect -= 0.0005
 			static_effect.get_material().set_shader_parameter("noise_amount", s_effect)
-			static_sound.volume_db -= 0.125
+			static_sound.volume_db -= 0.08
 	
 	if(static_effect.get_material().get_shader_parameter("noise_amount") >= 0.4):
 		get_tree().change_scene_to_file("res://Levels/Level_2/Game_over_2.tscn")
@@ -686,40 +674,3 @@ func _on_ffa_active_time_timeout():
 		
 		ffa_rand_time_set = false
 		ffa_flickering = false
-
-
-func _on_deafen_timer_timeout():
-	var rand = randi() % 4
-	if rand == 0:
-		$deafen_active_time.start()
-		deafen_timer.stop()
-		
-		$Monster_skreetch.play()
-		AudioServer.set_bus_volume_db(0, -100)
-	if rand == 1:
-		$deafen_active_time.start()
-		deafen_timer.stop()
-		
-		$Monster_skreetch.play()
-		AudioServer.set_bus_volume_db(0, -100)
-	if rand == 2:
-		$deafen_active_time.start()
-		deafen_timer.stop()
-		
-		$Monster_skreetch.play()
-		AudioServer.set_bus_volume_db(0, -100)
-	if rand == 3:
-		$deafen_active_time.start()
-		deafen_timer.stop()
-		
-		$Monster_skreetch.play()
-		AudioServer.set_bus_volume_db(0, -100)
-
-func _on_deafen_active_time_timeout():
-	AudioServer.set_bus_volume_db(0, master_volume)
-	$deafen_active_time.stop()
-	
-	deafen_time_set = false
-
-func _on_monster_skreetch_finished():
-	$Monster_skreetch.stop()
