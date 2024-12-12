@@ -24,8 +24,6 @@ signal step
 @onready var flashlight_base = $follow_head_x/follow_head_y/Flashlight
 @onready var flashlight = $follow_head_x/follow_head_y/Flashlight/SpotLight3D
 
-var t = 0.0
-
 @onready var head := $Head
 @onready var camera := $Head/Camera3D
 
@@ -56,6 +54,7 @@ func _physics_process(delta):
 		is_running = true
 		SPEED = SPRINT_SPEED
 		STAMINA -= 0.25
+		make_flashlight_droop()
 		if STAMINA <= 0:
 			SPEED = WALK_SPEED
 			is_running = false
@@ -66,6 +65,7 @@ func _physics_process(delta):
 		is_running = false
 	
 	if is_running == false:
+		make_flashlight_straighten()
 		if STAMINA < max:
 			STAMINA += 0.15
 		
@@ -129,6 +129,12 @@ func _headbob(time) -> Vector3:
 	return pos
 
 func make_flaslight_follow(delta):
-	follow_head_x.rotation = lerp(follow_head_x.rotation, head.rotation, delta * 10)
-	follow_head_y.rotation = lerp(follow_head_y.rotation, camera.rotation, delta * 10)
+	follow_head_x.rotation = lerp(follow_head_x.rotation, head.rotation, delta * 9)
+	follow_head_y.rotation = lerp(follow_head_y.rotation, camera.rotation, delta * 9)
+
+
+func make_flashlight_droop():
+	flashlight_base.rotation = Vector3(-0.3, 0.02, 0)
 	
+func make_flashlight_straighten():
+	flashlight_base.rotation = Vector3(0, 0.02, 0)
