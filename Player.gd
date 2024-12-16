@@ -129,12 +129,12 @@ func _headbob(time) -> Vector3:
 	return pos
 
 func make_flaslight_follow(delta):
-	follow_head_x.rotation = lerp(follow_head_x.rotation, head.rotation, delta * 9)
-	follow_head_y.rotation = lerp(follow_head_y.rotation, camera.rotation, delta * 9)
+	follow_head_x.rotation = lerp(follow_head_x.rotation, head.rotation, delta * 9.5)
+	follow_head_y.rotation = lerp(follow_head_y.rotation, camera.rotation, delta * 9.5)
 
 
 func make_flashlight_droop():
-	flashlight_base.rotation = Vector3(-0.3, 0.02, 0)
+	flashlight_base.rotation = Vector3(-0.2, 0.02, 0)
 	
 func make_flashlight_straighten():
 	flashlight_base.rotation = Vector3(0, 0.02, 0)

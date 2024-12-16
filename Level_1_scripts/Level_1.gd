@@ -58,80 +58,80 @@ func _process(delta):
 	if(mon_cast.is_colliding()):
 		if(mon_cast.get_collider().name == "Stalker"):
 			print("colider_1")
-			effect += 0.001
+			effect += 0.0025
 			screen_effect.get_material().set_shader_parameter("noise_amount", effect)
 			if(static_sound.volume_db < -10):
-				static_sound.volume_db += 0.25
+				static_sound.volume_db += 0.4
 		else:
 			if(effect <= 0.03):
 				pass
 			else:
 				effect -= 0.0005
 				screen_effect.get_material().set_shader_parameter("noise_amount", effect)
-				static_sound.volume_db -= 0.125
+				static_sound.volume_db -= 0.08
 	elif(mon_cast_2.is_colliding()):
 		if(mon_cast_2.get_collider().name == "Stalker"):
 			print("colider_2")
-			effect += 0.001
+			effect += 0.0025
 			screen_effect.get_material().set_shader_parameter("noise_amount", effect)
 			if(static_sound.volume_db < -10):
-				static_sound.volume_db += 0.25
+				static_sound.volume_db += 0.4
 		else:
 			if(effect <= 0.03):
 				pass
 			else:
 				effect -= 0.0005
 				screen_effect.get_material().set_shader_parameter("noise_amount", effect)
-				static_sound.volume_db -= 0.125
+				static_sound.volume_db -= 0.08
 	elif(mon_cast_3.is_colliding()):
 		if(mon_cast_3.get_collider().name == "Stalker"):
 			print("colider_3")
-			effect += 0.001
+			effect += 0.0025
 			screen_effect.get_material().set_shader_parameter("noise_amount", effect)
 			if(static_sound.volume_db < -10):
-				static_sound.volume_db += 0.25
+				static_sound.volume_db += 0.4
 		else:
 			if(effect <= 0.03):
 				pass
 			else:
 				effect -= 0.0005
 				screen_effect.get_material().set_shader_parameter("noise_amount", effect)
-				static_sound.volume_db -= 0.125
+				static_sound.volume_db -= 0.08
 	elif(mon_cast_4.is_colliding()):
 		if(mon_cast_4.get_collider().name == "Stalker"):
 			print("colider_4")
-			effect += 0.001
+			effect += 0.0025
 			screen_effect.get_material().set_shader_parameter("noise_amount", effect)
 			if(static_sound.volume_db < -10):
-				static_sound.volume_db += 0.25
+				static_sound.volume_db += 0.4
 		else:
 			if(effect <= 0.03):
 				pass
 			else:
 				effect -= 0.0005
 				screen_effect.get_material().set_shader_parameter("noise_amount", effect)
-				static_sound.volume_db -= 0.125
+				static_sound.volume_db -= 0.08
 	elif(mon_cast_5.is_colliding()):
 		if(mon_cast_5.get_collider().name == "Stalker"):
 			print("colider_5")
-			effect += 0.001
+			effect += 0.0025
 			screen_effect.get_material().set_shader_parameter("noise_amount", effect)
 			if(static_sound.volume_db < -10):
-				static_sound.volume_db += 0.25
+				static_sound.volume_db += 0.4
 		else:
 			if(effect <= 0.03):
 				pass
 			else:
 				effect -= 0.0005
 				screen_effect.get_material().set_shader_parameter("noise_amount", effect)
-				static_sound.volume_db -= 0.125
+				static_sound.volume_db -= 0.08
 	else:
 		if(effect <= 0.03):
 			pass
 		else:
 			effect -= 0.0005
 			screen_effect.get_material().set_shader_parameter("noise_amount", effect)
-			static_sound.volume_db -= 0.125
+			static_sound.volume_db -= 0.08
 	
 	if(screen_effect.get_material().get_shader_parameter("noise_amount") >= 0.4):
 		get_tree().change_scene_to_file("res://Levels/Level_1/game_over.tscn")
